@@ -1,7 +1,6 @@
 package com.brothercraft.chpex;
 
 import com.laytonsmith.annotations.api;
-import com.laytonsmith.annotations.shutdown;
 import com.laytonsmith.annotations.startup;
 import com.laytonsmith.core.CHVersion;
 import com.laytonsmith.core.Static;
@@ -25,13 +24,12 @@ public class CHPex {
 
 	@startup
 	public static void onEnable(){
+	    try {
 		Static.checkPlugin("PermissionsEx", Target.UNKNOWN);
+	    } catch (Exception e) {
+		System.out.println("[CommandHelper] CHPex Could not find PermissionsEx please make sure you have it installed.");
+	    }
 		System.out.println("[CommandHelper] CHPex Initialized - ACzChef");
-	}
-
-	@shutdown
-	public static void onDisable(){
-		System.out.println("[CommandHelper] CHPex De-Initialized - ACzChef");
 	}
 
 	@api
@@ -63,7 +61,7 @@ public class CHPex {
 		}
 
 		public ExceptionType[] thrown() {
-			return new ExceptionType[]{ExceptionType.CastException, ExceptionType.FormatException};
+			return new ExceptionType[]{ExceptionType.InvalidPluginException};
 		}
 
 		public boolean isRestricted() {
@@ -75,7 +73,7 @@ public class CHPex {
 		}
 
 		public String docs() {
-			throw new UnsupportedOperationException("Not supported yet.");
+			return "array {group} returns an array of all users in a group.";
 		}
 
 		public CHVersion since() {
@@ -86,8 +84,7 @@ public class CHPex {
 	@api
 	public static class pex_get_groups extends AbstractFunction {
 
-		public Construct exec(Target t, Environment env, Construct... args)
-				throws ConfigRuntimeException {
+		public Construct exec(Target t, Environment env, Construct... args) throws ConfigRuntimeException {
 			Static.checkPlugin("PermissionsEx", t);
 			PermissionManager pex = PermissionsEx.getPermissionManager();
 			CArray ret = CArray.GetAssociativeArray(t);
