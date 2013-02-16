@@ -6,6 +6,7 @@ import com.laytonsmith.annotations.startup;
 import com.laytonsmith.core.CHVersion;
 import com.laytonsmith.core.Static;
 import com.laytonsmith.core.constructs.CArray;
+import com.laytonsmith.core.constructs.CInt;
 import com.laytonsmith.core.constructs.CString;
 import com.laytonsmith.core.constructs.CVoid;
 import com.laytonsmith.core.constructs.Construct;
@@ -14,6 +15,8 @@ import com.laytonsmith.core.environments.Environment;
 import com.laytonsmith.core.exceptions.ConfigRuntimeException;
 import com.laytonsmith.core.functions.AbstractFunction;
 import com.laytonsmith.core.functions.Exceptions.ExceptionType;
+
+import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -78,5 +81,54 @@ public class CHPex {
 		public CHVersion since() {
 			return CHVersion.V3_3_1;
 		}
+	}
+	
+	@api
+	public static class pex_get_groups extends AbstractFunction {
+
+		public Construct exec(Target t, Environment env, Construct... args)
+				throws ConfigRuntimeException {
+			Static.checkPlugin("PermissionsEx", t);
+			PermissionManager pex = PermissionsEx.getPermissionManager();
+			CArray ret = CArray.GetAssociativeArray(t);
+			for(PermissionGroup g : pex.getGroups()) {
+				CArray details = CArray.GetAssociativeArray(t);
+				details.set("rank", new CInt(g.getRank(), t), t);
+				details.set("ladder", new CString(g.getRankLadder(), t), t);
+				details.set("prefix", new CString(g.getOwnPrefix(), t), t);
+				details.set("suffix", new CString(g.getOwnSuffix(), t), t);
+				ret.set(g.getName(), details, t);
+			}
+			return ret;
+		}
+
+		public boolean isRestricted() {
+			return true;
+		}
+
+		public Boolean runAsync() {
+			return false;
+		}
+
+		public ExceptionType[] thrown() {
+			return new ExceptionType[]{ExceptionType.InvalidPluginException};
+		}
+
+		public String docs() {
+			return "array {} Returns all groups with their rank, rank-ladder, prefix, and suffix.";
+		}
+
+		public String getName() {
+			return "pex_get_groups";
+		}
+
+		public Integer[] numArgs() {
+			return new Integer[]{0};
+		}
+
+		public CHVersion since() {
+			return CHVersion.V3_3_1;
+		}
+		
 	}
 }
