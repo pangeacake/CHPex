@@ -19,64 +19,64 @@ import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class CHPex {
-    
-    @startup
-    public static void onEnable(){
-	Static.checkPlugin("PermissionsEx", Target.UNKNOWN);
-	System.out.println("[CommandHelper] CHPex Initialized - ACzChef");
-    }
-    
-    @shutdown
-    public static void onDisable(){
-	   System.out.println("[CommandHelper] CHPex De-Initialized - ACzChef");
-    }
-    
-    @api
-    public static class pex_get_group_users extends AbstractFunction {
-        public String getName() {
-                return "pex_get_group_users";
-        
-	}
-	public Integer[] numArgs() {
-		return new Integer[]{1};
-	}
-	
-	public Construct exec(Target t, Environment env, Construct... args) throws ConfigRuntimeException {
-	    Static.checkPlugin("PermissionsEx", t);
-	    PermissionManager pex = PermissionsEx.getPermissionManager();
-	    String g;
-	    CArray cusers = new CArray(t);
-	    if (args[0] instanceof CString) {
-		g = args[0].val();
-	    } else {
-		return new CVoid(t);
-	    }
-	    PermissionUser[] users = pex.getUsers(g);
-	    
-	    for (PermissionUser user : users) {
-		cusers.push(new CString(user.getName(), t));
-	    }
-		return cusers;
+
+	@startup
+	public static void onEnable(){
+		Static.checkPlugin("PermissionsEx", Target.UNKNOWN);
+		System.out.println("[CommandHelper] CHPex Initialized - ACzChef");
 	}
 
-	public ExceptionType[] thrown() {
-	    return new ExceptionType[]{ExceptionType.CastException, ExceptionType.FormatException};
+	@shutdown
+	public static void onDisable(){
+		System.out.println("[CommandHelper] CHPex De-Initialized - ACzChef");
 	}
 
-	public boolean isRestricted() {
-	    return true;
-	}
+	@api
+	public static class pex_get_group_users extends AbstractFunction {
+		public String getName() {
+			return "pex_get_group_users";
 
-	public Boolean runAsync() {
-	    return false;
-	}
+		}
+		public Integer[] numArgs() {
+			return new Integer[]{1};
+		}
 
-	public String docs() {
-	    throw new UnsupportedOperationException("Not supported yet.");
-	}
+		public Construct exec(Target t, Environment env, Construct... args) throws ConfigRuntimeException {
+			Static.checkPlugin("PermissionsEx", t);
+			PermissionManager pex = PermissionsEx.getPermissionManager();
+			String g;
+			CArray cusers = new CArray(t);
+			if (args[0] instanceof CString) {
+				g = args[0].val();
+			} else {
+				return new CVoid(t);
+			}
+			PermissionUser[] users = pex.getUsers(g);
 
-	public CHVersion since() {
-	    return CHVersion.V3_3_1;
+			for (PermissionUser user : users) {
+				cusers.push(new CString(user.getName(), t));
+			}
+			return cusers;
+		}
+
+		public ExceptionType[] thrown() {
+			return new ExceptionType[]{ExceptionType.CastException, ExceptionType.FormatException};
+		}
+
+		public boolean isRestricted() {
+			return true;
+		}
+
+		public Boolean runAsync() {
+			return false;
+		}
+
+		public String docs() {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+
+		public CHVersion since() {
+			return CHVersion.V3_3_1;
+		}
 	}
-    }
 }
