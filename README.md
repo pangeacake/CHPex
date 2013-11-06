@@ -2,7 +2,6 @@ CHPex
 =====
 
 # Functions
-## CHPex
 ### array pex\_get\_group\_users(group):
 returns an array of all users in a group.
 
