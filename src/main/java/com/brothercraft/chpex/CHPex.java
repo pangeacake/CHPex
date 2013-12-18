@@ -1,5 +1,6 @@
 package com.brothercraft.chpex;
 
+import com.laytonsmith.PureUtilities.Version;
 import com.laytonsmith.annotations.api;
 import com.laytonsmith.annotations.startup;
 import com.laytonsmith.core.CHVersion;
@@ -10,6 +11,7 @@ import com.laytonsmith.core.constructs.CString;
 import com.laytonsmith.core.constructs.CVoid;
 import com.laytonsmith.core.constructs.Construct;
 import com.laytonsmith.core.constructs.Target;
+import com.laytonsmith.core.environments.CommandHelperEnvironment;
 import com.laytonsmith.core.environments.Environment;
 import com.laytonsmith.core.exceptions.ConfigRuntimeException;
 import com.laytonsmith.core.functions.AbstractFunction;
@@ -127,5 +129,52 @@ public class CHPex {
 			return CHVersion.V3_3_1;
 		}
 		
+	}
+	
+	public static class pex_get_user_info extends AbstractFunction {
+
+	public ExceptionType[] thrown() {
+	    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	public boolean isRestricted() {
+	    return true;
+	}
+
+	public Boolean runAsync() {
+	    return false;
+	}
+
+	public Construct exec(Target t, Environment environment, Construct... args) throws ConfigRuntimeException {
+	    Static.checkPlugin("PermissionsEx", t);
+	    PermissionManager pex = PermissionsEx.getPermissionManager();
+	    CArray ret = CArray.GetAssociativeArray(t);
+	    PermissionUser pexuser;
+	    if (args.length == 1) {
+		pexuser = pex.getUser(args[0].val());
+	    } else {
+		pexuser = pex.getUser(environment.getEnv(CommandHelperEnvironment.class).GetPlayer().getName());
+	    }
+	    ret.set("prefix", new CString(pexuser.getOwnPrefix(), t), t);
+	    ret.set("suffix", new CString(pexuser.getOwnSuffix(), t), t);
+	    return ret;
+	}
+
+	public String getName() {
+	    return "pex_get_user_info";
+	}
+
+	public Integer[] numArgs() {
+	    return new Integer[] {0, 1};
+	}
+
+	public String docs() {
+	    return "array {[player]} Returns player info. prefix, and suffix at the moment.";
+	}
+
+	public Version since() {
+	    return CHVersion.V3_3_1;
+	}
+	    
 	}
 }
