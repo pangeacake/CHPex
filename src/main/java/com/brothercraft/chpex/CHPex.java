@@ -131,6 +131,7 @@ public class CHPex {
 		
 	}
 	
+	@api
 	public static class pex_get_user_info extends AbstractFunction {
 
 	public ExceptionType[] thrown() {
