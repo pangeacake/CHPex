@@ -16,12 +16,6 @@
 
   <dependencies>
     <dependency>
-          <groupId>org.bukkit</groupId>
-          <artifactId>bukkit</artifactId>
-          <version>1.4.6-R0.1-SNAPSHOT</version>
-          <type>jar</type>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
@@ -35,13 +29,13 @@
     <dependency>
 	<groupId>ru.tehkode</groupId>
 	<artifactId>PermissionsEx</artifactId>
-	<version>1.19.5</version>
+	<version>1.21-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <repositories>
-        <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public</url>
+	<repository>
+            <id>nixium-repo</id>
+            <url>http://ci.nixium.com/plugin/repository/everything</url>
         </repository>
     </repositories>
 </project>
