@@ -34,8 +34,8 @@
   </dependencies>
   <repositories>
 	<repository>
-            <id>nixium-repo</id>
-            <url>http://ci.nixium.com/plugin/repository/everything</url>
+            <id>pex-repo</id>
+            <url>http://pex-repo.zachsthings.com</url>
         </repository>
     </repositories>
 </project>
