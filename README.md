@@ -8,3 +8,5 @@ returns an array of all users in a group.
 ### array pex\_get\_groups():
 Returns all groups with their rank, rank-ladder, prefix, and suffix.
 
+### array pex\_get\_user\_info([player]):
+Returns player info. prefix, and suffix at the moment.
