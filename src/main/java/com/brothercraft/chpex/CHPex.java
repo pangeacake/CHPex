@@ -6,6 +6,7 @@ import com.laytonsmith.annotations.startup;
 import com.laytonsmith.core.CHVersion;
 import com.laytonsmith.core.Static;
 import com.laytonsmith.core.constructs.CArray;
+import com.laytonsmith.core.constructs.CBoolean;
 import com.laytonsmith.core.constructs.CInt;
 import com.laytonsmith.core.constructs.CString;
 import com.laytonsmith.core.constructs.CVoid;
@@ -151,13 +152,27 @@ public class CHPex {
 	    PermissionManager pex = PermissionsEx.getPermissionManager();
 	    CArray ret = CArray.GetAssociativeArray(t);
 	    PermissionUser pexuser;
+	    boolean groupPrefix = false;
 	    if (args.length == 1) {
+		if(args[0] instanceof CBoolean) {
+		    pexuser = pex.getUser(environment.getEnv(CommandHelperEnvironment.class).GetPlayer().getName());
+		    groupPrefix = ((CBoolean) args[0]).getBoolean();
+		} else  {
+		    pexuser = pex.getUser(args[0].val());
+		}
+	    } else if(args.length == 2) {
 		pexuser = pex.getUser(args[0].val());
+		groupPrefix = ((CBoolean) args[1]).getBoolean();
 	    } else {
 		pexuser = pex.getUser(environment.getEnv(CommandHelperEnvironment.class).GetPlayer().getName());
 	    }
-	    ret.set("prefix", new CString(pexuser.getOwnPrefix(), t), t);
-	    ret.set("suffix", new CString(pexuser.getOwnSuffix(), t), t);
+	    if (groupPrefix) {
+		ret.set("prefix", new CString(pexuser.getPrefix(), t), t);
+		ret.set("suffix", new CString(pexuser.getSuffix(), t), t);
+	    } else {
+		ret.set("prefix", new CString(pexuser.getOwnPrefix(), t), t);
+		ret.set("suffix", new CString(pexuser.getOwnSuffix(), t), t);
+	    }
 	    return ret;
 	}
 
@@ -166,11 +181,11 @@ public class CHPex {
 	}
 
 	public Integer[] numArgs() {
-	    return new Integer[] {0, 1};
+	    return new Integer[] {0, 1, 2};
 	}
 
 	public String docs() {
-	    return "array {[player]} Returns player info. prefix, and suffix at the moment.";
+	    return "array {[player], [group prefix]} Returns player info. Such as prefix, and suffix. Group prefix is a boolean that will determine wether to check groups for the prefix, True means it will, defaults to false.";
 	}
 
 	public Version since() {
