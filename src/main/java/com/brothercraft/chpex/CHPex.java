@@ -17,6 +17,7 @@ import com.laytonsmith.core.environments.Environment;
 import com.laytonsmith.core.exceptions.ConfigRuntimeException;
 import com.laytonsmith.core.functions.AbstractFunction;
 import com.laytonsmith.core.functions.Exceptions.ExceptionType;
+import java.util.Set;
 
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionManager;
@@ -55,7 +56,7 @@ public class CHPex {
 			} else {
 				return CVoid.VOID;
 			}
-			PermissionUser[] users = pex.getUsers(g);
+			Set<PermissionUser> users = pex.getUsers(g);
 
 			for (PermissionUser user : users) {
 				cusers.push(new CString(user.getName(), t));
