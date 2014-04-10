@@ -53,7 +53,7 @@ public class CHPex {
 			if (args[0] instanceof CString) {
 				g = args[0].val();
 			} else {
-				return new CVoid(t);
+				return CVoid.VOID;
 			}
 			PermissionUser[] users = pex.getUsers(g);
 
